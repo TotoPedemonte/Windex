@@ -1,16 +1,10 @@
-# GuardiánClima ITBA ("Clima2")
+# GuardiánClima ITBA ("Windex")
 
 Aplicación de consola en Python que permite consultar el clima de cualquier ciudad,
 guardar un historial global de consultas en un archivo csv, ver estadísticas de uso y recibir un consejo
 de vestimenta generado por Inteligencia Artificial (de Google Gemini).
 
 Proyecto del **Trayecto de Tecnología – ITBA**, Grupo 33.
-
-Conformado por:
-- Francisco Pedemonte 
-- Juan Ignacio Bariffi Perez Chada 
-- Juan Mateo Beltran Flores
-- Jeronimo Sanguinetti
 
 ---
 
