@@ -9,7 +9,7 @@ Proyecto del **Trayecto de Tecnología – ITBA**, Grupo 33.
 Conformado por:
 - Francisco Pedemonte 
 - Juan Ignacio Bariffi Perez Chada 
-- Juan Mateo Beltran
+- Juan Mateo Beltran Flores
 - Jeronimo Sanguinetti
 
 ---
