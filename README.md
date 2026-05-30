@@ -6,6 +6,12 @@ de vestimenta generado por Inteligencia Artificial (de Google Gemini).
 
 Proyecto del **Trayecto de Tecnología – ITBA**, Grupo 33.
 
+Conformado por:
+- Francisco Pedemonte 
+- Juan Ignacio Bariffi Perez Chada 
+- Juan Mateo Beltran
+- Jeronimo Sanguinetti
+
 ---
 
 ## Requisitos
