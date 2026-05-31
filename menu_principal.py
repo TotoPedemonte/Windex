@@ -7,6 +7,7 @@ from asistente import obtener_consejo_ia_gemini
 from estadisticas import mostrar_estadisticas, exportar_historial_completo
 from api import OWM_API_KEY, GEMINI_API_KEY
 from clima import obtener_clima, mostrar_historial
+from acerca_de import mostrar_info
 
 #-------------------------------------------------------------------------------
 # Funciones:    
@@ -19,10 +20,12 @@ def limpiar_consola(): # Función que limpia la consola, buscada de google para 
 def seleccionar_historial():
     print("¿Qué consulta deseas seleccionar del historial?")
     print("------------------------------------------------------------------------------")
-    archivo_pd = pd.read_csv("historial_global.csv")
+    try:
+        archivo_pd = pd.read_csv("historial_global.csv")
+    except(FileNotFoundError,pd.errors.EmptyDataError):
+        return "No hay historial y/o Archivo de clima, primero debes realizar una consulta!"
     if archivo_pd.empty:
         return "No hay historial y/o Archivo de clima, primero debes realizar una consulta!"
-    
     df = pd.DataFrame(archivo_pd)
     for index, row in df.iterrows():
         print(f"{index + 1}. Usuario: {row['Usuario']}, Ciudad: {row['Ciudad']}, Fecha: {row['Fecha']}, Temperatura: {row['Temperatura']}°C, Humedad: {row['Humedad']}%, Viento: {row['Viento']} m/s")
@@ -44,12 +47,17 @@ def nueva_consulta(usuario):
     ciudad = input("Ciudad: ")
     limpiar_consola()
     resultado_clima = obtener_clima(usuario, ciudad, OWM_API_KEY)
+    if not resultado_clima:
+        return ""
     return obtener_consejo_ia_gemini(GEMINI_API_KEY, resultado_clima[0], resultado_clima[1], resultado_clima[2], resultado_clima[3], resultado_clima[4])
 
 def analizar_ultima_consulta():
     print("Analizar la ultima consulta")
     print("------------------------------------------------------------------------------")
-    archivo_pd = pd.read_csv("historial_global.csv")
+    try:
+        archivo_pd = pd.read_csv("historial_global.csv")
+    except(FileNotFoundError,pd.errors.EmptyDataError):
+        return "No hay historial y/o Archivo de clima, primero debes realizar una consulta!"
     if archivo_pd.empty:
         return "No hay historial y/o Archivo de clima, primero debes realizar una consulta!"
     df = pd.DataFrame(archivo_pd)
@@ -85,17 +93,17 @@ def menu_principal(usuario):
         print("Sobre qué ciudad quieres consultar?")
         ciudad = input("Ciudad: ")
         limpiar_consola()
-        mostrar_historial(ciudad)
+        mostrar_historial(ciudad, usuario)
     elif opcion == "3":
         print("¿Qué deseas hacer?")
         print("1. Mostrar estadísticas")
         print("2. Exportar historial completo")
-        opcion = int(input("Elige una opción: "))
+        opcion = input("Elige una opción: ")
         limpiar_consola()
 
-        if opcion == 1:
+        if opcion == "1":
             mostrar_estadisticas()
-        elif opcion == 2:
+        elif opcion == "2":
             exportar_historial_completo()
         else:
             print("Elegiste una opción que no es válida.")
@@ -104,19 +112,17 @@ def menu_principal(usuario):
         print("1. Seleccionar una consulta del Historial")
         print("2. Realizar una nueva consulta")
         print("3. Analizar la ultima consulta")
-        opcion = int(input("Elige una opción: "))
+        opcion = input("Elige una opción: ")
         limpiar_consola()
-        if opcion == 1:
+        if opcion == "1":
             resultado = seleccionar_historial()
-        elif opcion == 2:
+        elif opcion == "2":
             resultado = nueva_consulta(usuario)
-        elif opcion == 3:
+        elif opcion == "3":
             resultado = analizar_ultima_consulta()
         print(resultado)
-    # TODO: Argregar acerca de.
     elif opcion == "5":
-        print("Hecho por: Perez")
-    # TODO: Argregar acerca de.
+        mostrar_info()
     elif opcion == "6":
         print("------------------------------------------------------------------------------")
         print("Sesión Cerrada")

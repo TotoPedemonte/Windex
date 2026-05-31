@@ -47,6 +47,11 @@ def comprobar_logueo(usuario, password):
 
 def registro():
     nuevo_usuario = input("Ingresa tu usuario:")
+    if nuevo_usuario == "":
+        print("El usuario no puede ser vacío")
+        print("------------------------------------------------------------------------------")
+        registro()
+        return
     for iterar_usuario in obtener_usuarios():
         if iterar_usuario[0].lower() == nuevo_usuario.lower():
             print("El usuario ya existe, por favor intenta de nuevo")
@@ -85,7 +90,8 @@ def comprobar_contraseña(usuario, contraseña, repetir_contraseña):
         except FileNotFoundError:
             print("No se encontró ningún archivo de usuarios, creando uno nuevo...")
             pd.DataFrame({"Usuario": [usuario], "Contraseña": [contraseña]}).to_csv("usuarios.csv", index=False)
-            
+        
+        limpiar_consola()
         print("Usuario registrado correctamente")
         menu_principal(usuario)
     else:

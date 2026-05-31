@@ -24,18 +24,21 @@ def guardar_clima(usuario, ciudad, temperatura, humedad, viento, descripcion):
         formato.to_csv("historial_global.csv", mode='a', header=False, index=False)
         return
     
-def mostrar_historial(ciudad):
+def mostrar_historial(ciudad, usuario):
     hay_historial = False
     print("------------------------------------------------------------------------------")
     print("Historial del clima para", ciudad)
     print("------------------------------------------------------------------------------")
-    archivo_pd = pd.read_csv("historial_global.csv")
+    try:
+        archivo_pd = pd.read_csv("historial_global.csv")
+    except(FileNotFoundError,pd.errors.EmptyDataError):
+        print("No hay historial, realizá una consulta antes")
+        return
     if archivo_pd.empty:
-        return "No hay historial y/o Archivo de clima, primero debes realizar una consulta!"
-    for index, row in archivo_pd.iterrows():
-        if index == 0: # Ignoramos la primera fila que es la cabecera de la tabla
-            continue
-        if row['Ciudad'] == ciudad:
+        print("No hay historial y/o Archivo de clima, primero debes realizar una consulta!")
+        return
+    for index, row in archivo_pd.iterrows(): # Solo mostrar las consultas realizadas por el usuario
+        if row['Ciudad'].lower() == ciudad.lower() and row['Usuario'].lower() == usuario.lower():
             print(f"- Usuario: {row['Usuario']}, Fecha: {row['Fecha']}, Temperatura: {row['Temperatura']}°C, Humedad: {row['Humedad']}%, Viento: {row['Viento']} m/s")
             hay_historial = True
     if not hay_historial:
@@ -59,14 +62,14 @@ def obtener_clima(usuario, ciudad, api_key):
             print(f"- Presión: {presion}hPa")
             print(f"- Velocidad del Viento: {viento}m/s")
             print(f"- Descripción del clima: {descripcion.capitalize()}")
-            guardar_clima(usuario, ciudad, temperatura, humedad, viento, descripcion)
+            guardar_clima(usuario, city, temperatura, humedad, viento, descripcion)
             return [city, temperatura, descripcion, humedad, viento] # Devolvemos el clima en formato lista en caso de que queramos descomponerlo y mandarlo a otra funcion
         except KeyError:
             print("Error: Formato inesperado en datos.")
             return
     else:
         print("Error: No se pudo obtener datos de OpenWeatherMap.")
-        return
+        return False
 
 def obtener_clima_ciudad_owm(ciudad, api_key):
     # Función que obtiene el clima de una ciudad a partir de la API de OpenWeatherMap (Sacado del pdf de ChallengeTecnologia)
