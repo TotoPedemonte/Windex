@@ -6,6 +6,8 @@ de vestimenta generado por Inteligencia Artificial (de Google Gemini).
 
 Proyecto del **Trayecto de Tecnología – ITBA**, Grupo 33.
 
+Video Introductorio: https://youtu.be/SmK_DYuOei4
+
 ---
 
 ## Requisitos

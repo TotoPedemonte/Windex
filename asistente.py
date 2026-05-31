@@ -12,7 +12,7 @@ def obtener_consejo_ia_gemini(api_key_gemini, ciudad, temperatura, condicion,hum
     # Codigo tomado del pdf de ChallengeTecnologia y modificado acorde a nuestra app
     try:
         genai.configure(api_key=api_key_gemini)
-        model = genai.GenerativeModel('gemini-3.5-flash') # Este modelo era el más rapido y estable durante las pruebas
+        model = genai.GenerativeModel('gemini-3.1-flash-lite') # Este modelo era el más rapido y estable durante las pruebas
         prompt_diseñado_por_equipo = (
             # Promt realizado por el equipo basandonos en el modulo de Prompt Engineering
             f"""Eres un asistente que da consejos de vestimenta según el clima.
